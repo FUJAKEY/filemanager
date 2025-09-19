@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoStorage — файловый менеджер</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="gradient-bg"></div>
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <h1>NeoStorage</h1>
+          <p class="subtitle">Интерактивный файловый менеджер</p>
+        </div>
+        <button class="accent" id="refreshBtn" type="button">
+          ⟳ Обновить
+        </button>
+      </header>
+
+      <section class="breadcrumbs" id="breadcrumbs"></section>
+
+      <section class="toolbar">
+        <button type="button" id="upBtn">⤴ Вверх</button>
+        <button type="button" id="createFolderBtn">📁 Новая папка</button>
+        <button type="button" id="renameBtn" disabled>✏️ Переименовать</button>
+        <button type="button" id="editBtn" disabled>📝 Редактировать</button>
+        <button type="button" id="downloadBtn" disabled>⬇ Скачать</button>
+        <button type="button" id="archiveBtn" disabled>🗜 Архив</button>
+        <button type="button" id="deleteBtn" disabled class="danger">🗑 Удалить</button>
+      </section>
+
+      <div class="table-card">
+        <div class="table-header">
+          <input type="checkbox" id="selectAll" />
+          <div class="col name">Имя</div>
+          <div class="col size">Размер</div>
+          <div class="col modified">Изменён</div>
+        </div>
+        <div class="table-body" id="tableBody"></div>
+        <div class="empty-state hidden" id="emptyState">
+          <h3>Папка пуста</h3>
+          <p>Создайте новые файлы и папки или загрузите их извне.</p>
+        </div>
+      </div>
+
+      <footer class="status-bar">
+        <div id="statusMessage"></div>
+        <div class="path-indicator">
+          Текущий путь: <span id="currentPath">/</span>
+        </div>
+      </footer>
+    </div>
+
+    <div id="loader" class="loader hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <div id="inputModal" class="modal hidden">
+      <div class="modal-window">
+        <h2 id="inputModalTitle"></h2>
+        <form id="inputModalForm">
+          <label for="inputModalField" id="inputModalLabel"></label>
+          <input id="inputModalField" name="value" type="text" required />
+          <div class="modal-actions">
+            <button type="button" data-action="cancel">Отмена</button>
+            <button type="submit" class="accent">Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="confirmModal" class="modal hidden">
+      <div class="modal-window">
+        <h2 id="confirmModalTitle"></h2>
+        <p id="confirmModalMessage"></p>
+        <div class="modal-actions">
+          <button type="button" data-action="cancel">Отмена</button>
+          <button type="button" data-action="confirm" class="danger">Подтвердить</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="editorModal" class="modal hidden">
+      <div class="modal-window large">
+        <div class="modal-head">
+          <h2 id="editorModalTitle">Редактирование файла</h2>
+          <button type="button" data-action="close">×</button>
+        </div>
+        <textarea id="editorModalField" spellcheck="false"></textarea>
+        <div class="modal-actions">
+          <button type="button" data-action="close">Отмена</button>
+          <button type="button" data-action="save" class="accent">Сохранить</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
