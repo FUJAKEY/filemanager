@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoConsole — интерактивный терминал</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="gradient-bg"></div>
+    <div class="console-shell">
+      <header class="console-header">
+        <div>
+          <h1>NeoConsole</h1>
+          <p class="subtitle">Веб-интерфейс для работы с серверным терминалом</p>
+        </div>
+        <div class="header-actions">
+          <span id="connectionStatus" class="connection status-idle">Ожидание подключения…</span>
+          <button type="button" id="newTerminalBtn" class="accent">＋ Новый терминал</button>
+        </div>
+      </header>
+
+      <main class="console-layout">
+        <aside class="terminal-sidebar">
+          <div class="sidebar-head">
+            <h2>Сессии</h2>
+            <button type="button" id="refreshSessionsBtn" title="Обновить список">⟳</button>
+          </div>
+          <div id="terminalList" class="terminal-list"></div>
+        </aside>
+
+        <section class="terminal-panel">
+          <div class="panel-header">
+            <div>
+              <h2 id="terminalTitle">Нет выбранной сессии</h2>
+              <p id="terminalMeta">Создайте терминал или выберите его в списке слева.</p>
+            </div>
+            <div class="panel-actions">
+              <button type="button" id="closeTerminalBtn" class="danger" disabled>⛔ Завершить</button>
+            </div>
+          </div>
+
+          <div class="output-wrapper" id="terminalOutputContainer">
+            <pre id="terminalOutput" class="terminal-output"></pre>
+            <div id="terminalPlaceholder" class="terminal-placeholder">
+              Создайте новый терминал или выберите существующий.
+            </div>
+          </div>
+
+          <form id="inputForm" class="input-form">
+            <label for="terminalInput">Ввод команды</label>
+            <textarea
+              id="terminalInput"
+              rows="1"
+              spellcheck="false"
+              placeholder="Введите команду и нажмите Enter"
+            ></textarea>
+            <div class="input-actions">
+              <button type="submit" class="accent">Отправить ↵</button>
+              <button type="button" id="sendRawBtn">Отправить без перевода строки</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
