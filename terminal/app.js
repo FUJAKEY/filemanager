@@ -77,6 +77,29 @@
     return text;
   }
 
+  function shouldResetOutput(raw) {
+    if (!raw) return false;
+    const text = typeof raw === 'string' ? raw : String(raw);
+    if (!text) {
+      return false;
+    }
+    if (text.includes('\u001bc')) {
+      return true;
+    }
+    if (text.includes('\f')) {
+      return true;
+    }
+    if (/\u001b\[[0-9;]*[23]J/.test(text)) {
+      return true;
+    }
+    const hasHomeSequence = /\u001b\[[0-9;]*H/.test(text);
+    const hasClearSequence = /\u001b\[[0-9;]*J/.test(text);
+    if (hasHomeSequence && hasClearSequence) {
+      return true;
+    }
+    return false;
+  }
+
   function showToast(message, type = 'info') {
     if (!message) {
       elements.toast.classList.add('hidden');
@@ -389,7 +412,11 @@
         const session = upsertSession(payload.session || { id: payload.sessionId });
         if (session) {
           updateSessionMeta(session, payload.session);
-          const chunk = sanitizeChunk(payload.data);
+          const raw = typeof payload.data === 'string' ? payload.data : '';
+          if (shouldResetOutput(raw)) {
+            session.output = '';
+          }
+          const chunk = sanitizeChunk(raw);
           session.output = (session.output || '') + chunk;
           session.historyLoaded = true;
           if (session.id === state.activeId) {
@@ -403,7 +430,8 @@
         const session = upsertSession(payload.session || { id: payload.sessionId });
         if (session) {
           updateSessionMeta(session, payload.session);
-          session.output = sanitizeChunk(payload.data);
+          const raw = typeof payload.data === 'string' ? payload.data : '';
+          session.output = shouldResetOutput(raw) ? '' : sanitizeChunk(raw);
           session.historyLoaded = true;
           if (session.id === state.activeId) {
             renderOutput(session, { forceScroll: true });
