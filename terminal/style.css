@@ -505,22 +505,34 @@ button:disabled {
 @media (max-width: 640px) {
   body {
     padding: 16px;
-    display: block;
+    display: flex;
+    flex-direction: column;
     min-height: 100dvh;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding-top: calc(16px + env(safe-area-inset-top));
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
   }
 
   .console-shell {
     padding: 20px;
-    max-height: none;
-    height: auto;
-    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - 32px);
+    max-height: calc(100dvh - 32px);
+    height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow: hidden;
+    min-height: 0;
   }
 
   .console-layout {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: auto;
+    flex: 1;
+    min-height: 0;
   }
 
   .console-header {
@@ -530,8 +542,8 @@ button:disabled {
   }
 
   .terminal-sidebar {
-    max-height: none;
-    height: auto;
+    max-height: min(45vh, 320px);
+    overflow: hidden;
   }
 
   .terminal-list {
@@ -540,11 +552,15 @@ button:disabled {
 
   .terminal-panel {
     padding: 20px;
-    overflow: visible;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .output-wrapper {
-    min-height: 200px;
+    flex: 1 1 200px;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .header-actions {
